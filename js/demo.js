@@ -36082,6 +36082,7 @@ var utils = YJXFex.exports;
 
 var HUYA = taf.HUYA;
 var Taf = taf.Taf;
+var TafMx = taf.TafMx;
 
 var t = new HUYA.WSConnectParaInfo;
 t.lUid = "2184376762";
@@ -36098,9 +36099,303 @@ var _ = "?baseinfo=".concat(encodeURIComponent(o));
 
 var ws = new WebSocket("wss://wsapi.huya.com" + _);
 
-var connected = !1;
+var W = {}, $ = null, z = {};
+
+var m = {
+  DEFAULT_IP: "ws.api.huya.com",
+  DEBUG_IP: "testws.va.huya.com:80",
+  CDN_IP: "cdnws.api.huya.com",
+  connected: !1,
+  WSS_DEBUG_IP: "testws.va.huya.com:443",
+  WSS_DEFAULT_IP: "wsapi.huya.com",
+  WSS_CDN_IP: "cdnws.api.huya.com",
+  reconnect: function() {
+    x(w),
+    w = null,
+    this.connected = !1,
+    P()
+  },
+  sendWup: function(t, i, r, n, s, o, a) {
+    n && (e.userId.sToken = n),
+    r && r.tId && !o && (r.tId = e.userId),
+    !g || "videogateway" == t.toLowerCase() && !S || f.NoLog[i] || c.log("%c>>>>>>> %creqWup: %c" + i, H("#009100"), H("black"), H("#009100"), t, r);
+    var d = new l.Wup;
+    d.setServant(t),
+    d.setFunc(i),
+    d.writeStruct("tReq", r),
+    null == s && (s = -1),
+    d.setRequestId(s);
+    var u = new p.WebSocketCommand;
+    u.iCmdType = p.EWebSocketCommandType.EWSCmd_WupReq;
+    var h = d.encode();
+    u.vData = h;
+    try {
+        var m = h.getBuffer()
+          , w = new T.ArrayBuffer;
+        w.append(m);
+        var I = w.end();
+        u.sMD5 = I
+    } catch (t) {
+        c.log("sparkMd5End", t)
+    }
+    a || (a = e.getTraceId());
+    var y = "".concat(a, ":").concat(a, ":").concat(0, ":").concat(e.enableTrace);
+    u.traceId = y;
+    var v = new l.JceOutputStream;
+    u.writeTo(v),
+    C(v.getBuffer())
+  },
+  sendWup2: function(t, i, r, s, o, a, c) {
+    var d = +new Date
+      , u = e.getTraceId();
+    if ("function" == typeof s) {
+        m.addListener(a > 0 ? i + a : i, (function e(r) {
+            n.fireEvent(n.TAF_SUCCESS_REPORT, {
+                type: 2,
+                code: r.bcode,
+                funcName: i,
+                moduleName: t,
+                startTime: d
+            }),
+            s(r),
+            (o || null == o) && m.removeListener(a > 0 ? i + a : i, e)
+        }
+        )),
+        n.fireEvent(n.TAF_SUCCESS_REPORT, {
+            type: 1,
+            funcName: i,
+            moduleName: t,
+            startTime: d,
+            traceid: u
+        })
+    }
+    m.sendWup(t, i, r, null, a, c, u)
+  },
+  sendField: function(t, e, i, r) {
+  g && c.log("%c>>>>>>> %creqWup: %c" + e, H("#009100"), H("black"), H("#009100"), t, i, r);
+  var n = new l.Wup;
+  n.setServant(t),
+  n.setFunc(e);
+  var s = i.charAt(0);
+  "i" == s ? n.writeInt32(i, r) : "l" == s ? n.writeInt64(i, r) : "s" == s ? n.writeString(i, r) : c.error("sendField error, not mapped field " + i);
+  var o = new p.WebSocketCommand;
+  o.iCmdType = p.EWebSocketCommandType.EWSCmd_WupReq,
+  o.vData = n.encode();
+  var a = new l.JceOutputStream;
+  o.writeTo(a),
+  C(a.getBuffer())
+  },
+  sendRegister: function(t) {
+    g && c.log("%c>>>>>>> %creqRegister:", H("#009100"), H("#D26900"), t);
+    var e = new l.JceOutputStream;
+    t.writeTo(e);
+    var i = new p.WebSocketCommand;
+    i.iCmdType = p.EWebSocketCommandType.EWSCmd_RegisterReq,
+    i.vData = e.getBinBuffer(),
+    e = new l.JceOutputStream,
+    i.writeTo(e),
+    C(e.getBuffer())
+}
+,
+sendRegisterGroup: function(t) {
+    g && c.log("%c>>>>>>> %creqRegisterGroup:", H("#009100"), H("#D26900"), t);
+    var e = new l.JceOutputStream;
+    t.writeTo(e);
+    var i = new p.WebSocketCommand;
+    i.iCmdType = p.EWebSocketCommandType.EWSCmdC2S_RegisterGroupReq,
+    i.vData = e.getBinBuffer(),
+    e = new l.JceOutputStream,
+    i.writeTo(e),
+    C(e.getBuffer())
+}
+,
+sendUnRegisterGroup: function(t) {
+    g && c.log("%c>>>>>>> %creqUnRegisterGroup:", H("#009100"), H("#D26900"), t);
+    var e = new l.JceOutputStream;
+    t.writeTo(e);
+    var i = new p.WebSocketCommand;
+    i.iCmdType = p.EWebSocketCommandType.EWSCmdC2S_UnRegisterGroupReq,
+    i.vData = e.getBinBuffer(),
+    e = new l.JceOutputStream,
+    i.writeTo(e),
+    C(e.getBuffer())
+}
+,
+sendEnterP2P: function(t) {
+    g && c.log("%c>>>>>>> %sendEnterP2P:", t);
+    var e = new l.JceOutputStream;
+    t.writeTo(e);
+    var i = new p.WebSocketCommand;
+    i.iCmdType = p.EWebSocketCommandType.EWSCmdS2C_EnterP2P,
+    i.vData = e.getBinBuffer(),
+    e = new l.JceOutputStream,
+    i.writeTo(e),
+    C(e.getBuffer())
+}
+,
+sendExitP2P: function(t) {
+    g && c.log("%c>>>>>>> %sendExitP2P:", t);
+    var e = new l.JceOutputStream;
+    t.writeTo(e);
+    var i = new p.WebSocketCommand;
+    i.iCmdType = p.EWebSocketCommandType.EWSCmdS2C_ExitP2P,
+    i.vData = e.getBinBuffer(),
+    e = new l.JceOutputStream,
+    i.writeTo(e),
+    C(e.getBuffer())
+}
+,
+sendWSUpdateUserInfoReq: function(t) {
+    var i = new p.WSUpdateUserInfoReq;
+    i.sAppSrc = e.appSrc,
+    i.sGuid = e.getGuid(),
+    i.tWSMsgStatInfo = t;
+    var r = new l.JceOutputStream;
+    i.writeTo(r);
+    var n = new p.WebSocketCommand;
+    n.iCmdType = p.EWebSocketCommandType.EWSCmdC2S_UpdateUserInfoReq,
+    n.vData = r.getBinBuffer(),
+    r = new l.JceOutputStream,
+    n.writeTo(r),
+    this.send(r.getBuffer())
+}
+,
+onP2PData: function(t) {
+    b.setData(t.pushMess, !0),
+    V(t.data),
+    m.dispatch(t.uri, t.data),
+    t.buffer && e.vplayerUI.trigger("extTafData", {
+        uri: t.uri,
+        funcName: "",
+        data: t.buffer
+    })
+}
+,
+getUserId: function() {
+    var t = new p.UserId;
+    return a.copy(t, e.userId),
+    t
+}
+,
+send: C,
+registerUri: function(t, e) {
+    f.UriMapping[t + ""] || (f.UriMapping[t + ""] = e)
+}
+,
+registerUriMap: function(t) {
+    for (var e in t) {
+        var i = t[e];
+        f.UriMapping[e + ""] || (f.UriMapping[e + ""] = i)
+    }
+}
+,
+registerWup: function(t, e) {
+    f.WupMapping[t] || (f.WupMapping[t] = e)
+}
+,
+registerWupMap: function(t) {
+    for (var e in t) {
+        var i = t[e];
+        f.WupMapping[e] || (f.WupMapping[e] = i)
+    }
+}
+,
+getTaf: function() {
+    return l
+}
+,
+addListener: function(t, e) {
+    if (void 0 === W[t] && (W[t] = []),
+    "function" == typeof e) {
+        for (var i = W[t], r = 0, n = i.length; r < n; r++)
+            if (i[r] === e)
+                return this;
+        i.push(e)
+    }
+    return this
+}
+,
+removeListener: function(t, e) {
+    if (null != t && t === $)
+        return void 0 === z[t] && (z[t] = []),
+        z[t].push(e),
+        this;
+    var i = W[t];
+    if (i instanceof Array)
+        if ("function" == typeof e) {
+            for (var r = 0, n = i.length; r < n; r++)
+                if (i[r] === e) {
+                    i.splice(r, 1);
+                    break
+                }
+            0 == i.length && delete W[t]
+        } else
+            null == e && delete W[t];
+    return this
+}
+,
+dispatch: function(t, e) {
+    $ = t;
+    var i = W[t];
+    if (i instanceof Array) {
+        for (var r = 0, n = i.length; r < n; r++) {
+            var s = i[r];
+            "function" == typeof s && s(e)
+        }
+        i.length
+    }
+    if ($ = null,
+    (i = z[t])instanceof Array) {
+        for (r = 0,
+        n = i.length; r < n; r++)
+            m.removeListener(t, i[r]);
+        delete z[t]
+    }
+    return this
+}
+,
+unpackNest: V
+};
+
+function V(t) {
+  t instanceof p.SendMessageRsp ? O(t.tNotice) : t instanceof p.MessageNotice ? O(t) : t instanceof p.GetRctTimedMessageRsp ? function(t) {
+      for (var e = t.vTimedMesasgeNotice.value, i = 0, r = e.length; i < r; i++) {
+          O(e[i].tNotice)
+      }
+  }(t) : t instanceof p.ActivityMsgRsp ? 1 == t.iEnable || s ? function(t) {
+      for (var e = t.vSerializedMsg.value, i = 0, r = e.length; i < r; i++) {
+          var n = e[i]
+            , s = n.iSubUri
+            , o = f.UriMapping[s];
+          if (1010003 == s)
+              return void c.info("活动的subUri=" + s);
+          if (!o)
+              return void c.info("收到未映射的活动包，uri=" + s);
+          var a = new l.JceInputStream(n.vContent)
+            , d = new o;
+          d.readFrom(a),
+          c.log("%c<<<<<<< %cActivity, %clUri=" + s, H("#0000E3"), H("black"), H("#8600FF"), d),
+          m.dispatch(s, d)
+      }
+  }(t) : c.log("Activity 没有生效的活动协议", t) : t instanceof p.MatchWebPushLiveRsp ? function(t) {
+      var e = t.iUri
+        , i = f.UriMapping[e];
+      if (!i)
+          return void c.log("%c<<<<<<< %cMatchWebPushLive, %clUri=" + e, H("#000E3"), H("black"), H("#8600FF"), "收到未映射的广播包");
+      var r = new l.JceInputStream(t.vBuff);
+      try {
+          var n = r.readStruct(0, !0, new i);
+          c.log("%c<<<<<<< %cMatchWebPushLive, %clUri=" + e, H("#000E3"), H("black"), H("#8600FF"), n),
+          m.dispatch(e, n)
+      } catch (t) {
+          c.log("%c<<<<<<< %cMatchWebPushLive, %clUri=" + e, H("#000E3"), H("black"), H("#8600FF"), "广播包解码错误", t)
+      }
+  }(t) : t instanceof p.ExpressionEmoticonNotice ? O(t.tDecoration) : t instanceof p.SendExpressionEmoticonRsp && O(t.tResult.tDecoration)
+}
+
 ws.onopen = function () {
-    (function() {
+    m.connected = !0,
+    function() {
         var t = new HUYA.WSVerifyCookieReq;
         t.lUid = "2184376762",
         t.sUA = "webh5&2202171447&websocket",
@@ -36108,15 +36403,28 @@ ws.onopen = function () {
         t.sGuid = "0a42e42e17ca0062810118b619b6a5c9",
         t.bAutoRegisterUid = 1,
         t.sAppSrc = "HUYA&ZH&2052";
-        var i = new l.JceOutputStream;
+        var i = new Taf.JceOutputStream;
         t.writeTo(i);
         var n = new HUYA.WebSocketCommand;
         n.iCmdType = HUYA.EWebSocketCommandType.EWSCmdC2S_VerifyCookieReq,
         n.vData = i.getBinBuffer(),
-        i = new l.JceOutputStream,
+        i = new Taf.JceOutputStream,
         n.writeTo(i),
         C(i.getBuffer())
-    }()),
+    }(),
+    function() {
+        var n = new HUYA.GetLivingInfoReq;
+        n.tId = i.userId,
+        n.lTopSid = i.topsid,
+        n.lSubSid = i.subsid,
+        i.obCurPid ? n.lPresenterUid = i.obCurPid : n.lPresenterUid = i.presenterUid,
+        n.sTraceSource = d.ref,
+        n.sPassword = d.roomPayPassword || "",
+
+    }(),
+    function() {
+
+    },
     m.dispatch("WEBSOCKET_CONNECTED"),
     e.reConnectTimes = 0,
     clearTimeout(M),
@@ -36135,36 +36443,33 @@ ws.onmessage = function (t) {
 
 function B() {
     var t = this.result;
-    localStorage.__wup > 1 && l.Util.jcestream(t, 32);
-    var i = new l.JceInputStream(t)
-      , r = new p.WebSocketCommand;
+    localStorage.__wup > 1 && Taf.Util.jcestream(t, 32);
+    var i = new Taf.JceInputStream(t)
+      , r = new HUYA.WebSocketCommand;
     switch (r.readFrom(i),
     r.iCmdType) {
-    case p.EWebSocketCommandType.EWSCmd_RegisterRsp:
-        i = new l.JceInputStream(r.vData.buffer);
-        var s = new p.WSRegisterRsp;
+    case HUYA.EWebSocketCommandType.EWSCmd_RegisterRsp:
+        i = new Taf.JceInputStream(r.vData.buffer);
+        var s = new HUYA.WSRegisterRsp;
         s.readFrom(i),
-        g && c.log("%c<<<<<<< %crspRegister", H("#0000E3"), H("#D9006C"), s),
         m.dispatch("WSRegisterRsp", s);
         break;
-    case p.EWebSocketCommandType.EWSCmdS2C_RegisterGroupRsp:
-        i = new l.JceInputStream(r.vData.buffer);
-        var o = new p.WSRegisterGroupRsp;
+    case HUYA.EWebSocketCommandType.EWSCmdS2C_RegisterGroupRsp:
+        i = new Taf.JceInputStream(r.vData.buffer);
+        var o = new HUYA.WSRegisterGroupRsp;
         o.readFrom(i),
-        g && c.log("%c<<<<<<< %crspregisterGroup", H("#0000E3"), H("#D9006C"), o),
         m.dispatch("WSRegisterGroupRsp", o);
         break;
-    case p.EWebSocketCommandType.EWSCmdS2C_UnRegisterGroupRsp:
-        i = new l.JceInputStream(r.vData.buffer);
-        var a = new p.WSUnRegisterGroupRsp;
+    case HUYA.EWebSocketCommandType.EWSCmdS2C_UnRegisterGroupRsp:
+        i = new Taf.JceInputStream(r.vData.buffer);
+        var a = new HUYA.WSUnRegisterGroupRsp;
         a.readFrom(i),
-        g && c.log("%c<<<<<<< %crspunRegisterGroup", H("#0000E3"), H("#D9006C"), a),
         m.dispatch("WSUnRegisterGroupRsp", a);
         break;
-    case p.EWebSocketCommandType.EWSCmd_WupRsp:
-        var h = new l.Wup;
+    case HUYA.EWebSocketCommandType.EWSCmd_WupRsp:
+        var h = new Taf.Wup;
         h.decode(r.vData.buffer);
-        var w = f.WupMapping[h.sFuncName];
+        var w = TafMx.WupMapping[h.sFuncName];
         if (D(0, h.sFuncName, r.vData.buffer),
         w) {
             var I = new w
@@ -36195,7 +36500,7 @@ function B() {
             m.dispatch(h.sFuncName),
             "OnUserHeartBeat" != h.sFuncName && c.info("收到未映射的 WupRsp，sFuncName=" + h.sFuncName);
         break;
-    case p.EWebSocketCommandType.EWSCmdS2C_MsgPushReq:
+    case HUYA.EWebSocketCommandType.EWSCmdS2C_MsgPushReq:
         i = new l.JceInputStream(r.vData.buffer),
         (k = new p.WSPushMessage).readFrom(i);
         var R = k.iUri
@@ -36217,23 +36522,19 @@ function B() {
         else
             v && c.info("收到未映射的 WSPushMessage uri=" + R);
         break;
-    case p.EWebSocketCommandType.EWSCmdS2C_HeartBeatAck:
-        c.log("%c<<<<<<< rspHeartBeat: " + Date.now(), H("#0000E3"));
+    case HUYA.EWebSocketCommandType.EWSCmdS2C_HeartBeatAck:
         break;
-    case p.EWebSocketCommandType.EWSCmdS2C_VerifyCookieRsp:
-        i = new l.JceInputStream(r.vData.buffer);
-        var C = new p.WSVerifyCookieRsp;
+    case HUYA.EWebSocketCommandType.EWSCmdS2C_VerifyCookieRsp:
+        i = new Taf.JceInputStream(r.vData.buffer);
+        var C = new HUYA.WSVerifyCookieRsp;
         C.readFrom(i);
         var U = 0 == C.iValidate;
-        e.verifyCookiePass = U,
-        U || e.vplayerUI.trigger("verifyCookieFail"),
-        d.addLog("VerifyCookie校验" + (U ? "通过！" : "失败！")),
-        g && c.log("%c<<<<<<< %cVerifyCookie", H("#0000E3"), H("#D9006C"), "校验" + (U ? "通过！" : "失败！"), C);
+        //e.verifyCookiePass = U;
         break;
-    case p.EWebSocketCommandType.EWSCmdS2C_MsgPushReq_V2:
+    case HUYA.EWebSocketCommandType.EWSCmdS2C_MsgPushReq_V2:
         var k;
-        i = new l.JceInputStream(r.vData.buffer),
-        (k = new p.WSPushMessage_V2).readFrom(i);
+        i = new Taf.JceInputStream(r.vData.buffer),
+        (k = new HUYA.WSPushMessage_V2).readFrom(i);
         for (var N = 0, L = k.vMsgItem.value.length; N < L; N++) {
             var M = k.vMsgItem.value[N];
             b.setData(M);
@@ -36245,8 +36546,8 @@ function B() {
                 }
             if (!e.dropDanmuOpen || !e.isFilterDanmu() || 1400 != R && 6298 != R) {
                 var E;
-                x = f.UriMapping[R],
-                i = new l.JceInputStream(M.sMsg);
+                x = TafMx.UriMapping[R],
+                i = new Taf.JceInputStream(M.sMsg);
                 if (D(R, "", M.sMsg.buffer),
                 x)
                     (E = new x).readFrom(i),
@@ -36259,29 +36560,25 @@ function B() {
                 e.dropDanmuCount++
         }
         break;
-    case p.EWebSocketCommandType.EWSCmdS2C_EnterP2PAck:
-        i = new l.JceInputStream(r.vData.buffer);
-        var A = new p.WSEnterP2PAck;
+    case HUYA.EWebSocketCommandType.EWSCmdS2C_EnterP2PAck:
+        i = new Taf.JceInputStream(r.vData.buffer);
+        var A = new HUYA.WSEnterP2PAck;
         A.readFrom(i),
-        g && c.log("<<<<<<< WSEnterP2PAck", A),
         m.dispatch("WSEnterP2PAck", A);
         break;
-    case p.EWebSocketCommandType.EWSCmdS2C_ExitP2PAck:
-        i = new l.JceInputStream(r.vData.buffer);
-        var G = new p.WSExitP2PAck;
+    case HUYA.EWebSocketCommandType.EWSCmdS2C_ExitP2PAck:
+        i = new Taf.JceInputStream(r.vData.buffer);
+        var G = new HUYA.WSExitP2PAck;
         G.readFrom(i),
-        g && c.log("<<<<<<< WSExitP2PAck", G),
         m.dispatch("WSExitP2PAck", G);
         break;
-    case p.EWebSocketCommandType.EWSCmdS2C_UpdateUserInfoRsp:
-        i = new l.JceInputStream(r.vData.buffer);
-        var F = new p.WSUpdateUserInfoRsp;
+    case HUYA.EWebSocketCommandType.EWSCmdS2C_UpdateUserInfoRsp:
+        i = new Taf.JceInputStream(r.vData.buffer);
+        var F = new HUYA.WSUpdateUserInfoRsp;
         F.readFrom(i),
-        g && c.log("<<<<<<< WSUpdateUserInfoRsp", F),
         m.dispatch("WSUpdateUserInfoRsp", F);
         break;
     default:
-        c.log("%c<<<<<<< Not matched CmdType: " + r.iCmdType, H("#red"))
     }
 }
 
