@@ -1,3 +1,24 @@
+var ttRoomData = window.TT_ROOM_DATA;
+var ttProfileInfo = window.TT_PROFILE_INFO;
+var ttPlayerCfg = window.TT_PLAYER_CFG;
+var ttPlayerConf = window.TT_PLAYER_CONF;
+
+var parseQueryString = function(e) {
+    var n, t = {};
+    if (-1 != (n = e.indexOf("?")))
+        for (var o = e.substring(n + 1, e.length).split("&"), a = [], i = 0, c = o.length; i < c; i++)
+            t[(a = o[i].split("="))[0]] = a[1];
+    return t
+}
+
+var getCookieVal = function(e) {
+        for (var n = document.cookie ? document.cookie.split("; ") : [], t = 0; t < n.length; t += 1) {
+            var o = n[t].split("=");
+            if (o[0] == e)
+                return decodeURIComponent(o[1])
+        }
+        return ""
+}
 
   function gt(t, e) {
     for (var i = 0; i < e.length; i++) {
@@ -11,6 +32,7 @@
 
 var St = function () {
   function t(e) {
+    var s = this;
   }
   var a;
   var e = t;
@@ -191,89 +213,91 @@ var eight = function (e, n, t) {
   }
 }
 
-h = function(e) {
-  var n = hyPlayerConfig.vappid;
-  "2" == i.default.liveSourceType && (n = 10507);
-  var t = f.a.parseQueryString(location.search)
-    , o = "";
-  try {
-      o = sessionStorage.getItem("ya_eid")
-  } catch (e) {
-      o = f.a.getCookieVal("ya_eid")
-  }
-  var c = [];
-  try {
-      c = JSON.parse(localStorage.getItem("TT_LIVE_STREAM_ORIGIN")) || []
-  } catch (e) {}
-  var a = [];
-  if (c.length) {
-      var u = (new Date).getTime() / 1e3;
-      c.forEach((function(e) {
-          e && e.data && e.data.uid == r.default.lp && e.expire > u && (a = e.data.domain_list)
-      }
-      ))
-  }
-  var d = {
-      chTopId: i.default.id,
-      subChId: i.default.sid,
-      pyyid: r.default.yyid,
-      profileRoom: i.default.profileRoom,
-      pnick: r.default.nick,
-      freezeLevel: r.default.freezeLevel,
-      deleteOriginalPainting: s.a.deleteOriginalPainting,
-      h5gopChannel: s.a.h5gopChannel,
-      eu: r.default.lp,
-      rso: t.promoter || t.rso || f.a.getCookieVal("ya_rso") || "",
-      rso_desc: t.rso_desc || "",
-      from: t.from || "",
-      vappid: n,
-      stream: hyPlayerConfig.stream,
-      domain_list: a,
-      gameId: i.default.gid,
-      screenType: i.default.screenType,
-      hasMoments: "NORMAL" === i.default.type || "STAR" === i.default.type ? 1 : 0,
-      furl: encodeURIComponent(document.referrer),
-      ref: o,
-      iSourceType: i.default.liveSourceType,
-      avatarImg: r.default.avatar,
-      cfg: s.a,
-      conf: l.a,
-      isShowMmsProgramList: i.default.isShowMmsProgramList,
-      isUnion: !!f.a.getCookieVal("promoter"),
-      isPayRoom: i.default.isPayRoom,
-      isSecret: i.default.isSecret,
-      roomPayPassword: i.default.roomPayPassword,
-      isForeign: TT.isForeign,
-      roomInfo: i.default,
-      profileInfo: r.default,
-      profileP2POpt: window.TT_PROFILE_P2P_OPT
-  };
-  t.share_by && t.share_fm && (d.platform = {
-      weixin: 2,
-      pengyouquan: 1,
-      weibo: 3,
-      qq: 4,
-      kongjian: 5,
-      tieba: 6,
-      lianjie: 7
-  }[t.share_fm] || 7,
-  d.platform = "share-" + d.platform),
-  i.default.isReplay && $.extend(d, {
-      replay: 1,
-      isEu: !1,
-      doJoin: 0
-  }),
-  $("#liveRoomObj").html('<div id="videoContainer" style="position: relative;"></div>');
-  var m = window.TT_LIVE_TIMING || {};
-  m.playerInitBefore = (new Date).getTime();
-  var h = new VPlayer($.extend({
-      idDom: "#videoContainer",
-      register: function(n) {
-          e.emit("reg", n)
-      }
-  }, d));
-  m.playerInitAfter = (new Date).getTime(),
-  e.emit("initComplete", h)
+var meta = function (element) {
+    var vappid = hyPlayerConfig.vappid;
+    "2" == ttRoomData.liveSourceType && (vappid = 10507);
+    var search = parseQueryString(location.search), ya_eid = "";
+    try {
+        ya_eid = sessionStorage.getItem("ya_eid")
+    } catch (error) {
+        ya_eid = getCookieVal("ya_eid")
+    }
+    var ttLiveStreamOrigin = [];
+    try {
+        ttLiveStreamOrigin = JSON.parse(localStorage.getItem("TT_LIVE_STREAM_ORIGIN")) || [];
+    } catch (error) {
+
+    }
+    var domainList = [];
+    if(ttLiveStreamOrigin.length) {
+        var time = (new Date).getTime() / 1e3;
+        ttLiveStreamOrigin.forEach((function (element) {
+            element && element.data && element.data.uid == ttRoomData.lp && element.expire > time && (domainList = element.data.domain_list)
+        }
+        ));
+    }
+
+    var metaData = {
+        chTopId: ttRoomData.id,
+        subChId: ttRoomData.sid,
+        pyyid: ttProfileInfo.yyid,
+        profileRoom: ttRoomData.profileRoom,
+        pnick: ttProfileInfo.nick,
+        freezeLevel: ttProfileInfo.freezeLevel,
+        deleteOriginalPainting: ttPlayerCfg.deleteOriginalPainting,
+        h5gopChannel: ttPlayerCfg.h5gopChannel,
+        eu: ttProfileInfo.lp,
+        rso: search.promoter || search.rso || getCookieVal("ya_rso") || "",
+        rso_desc: search.rso_desc || "",
+        from: search.from || "",
+        vappid: vappid,
+        stream: hyPlayerConfig.stream,
+        domain_list: domainList,
+        gameId: ttRoomData.gid,
+        screenType: ttRoomData.screenType,
+        hasMoments: "NORMAL" === ttRoomData.type || "STAR" === ttRoomData.type ? 1 : 0,
+        furl: encodeURIComponent(document.referrer),
+        ref: ya_eid,
+        iSourceType: ttRoomData.liveSourceType,
+        avatarImg: ttProfileInfo.avatar,
+        cfg: ttPlayerCfg,
+        conf: ttPlayerConf,
+        isShowMmsProgramList: ttRoomData.isShowMmsProgramList,
+        isUnion: !!getCookieVal("promoter"),
+        isPayRoom: ttRoomData.isPayRoom,
+        isSecret: ttRoomData.isSecret,
+        roomPayPassword: ttRoomData.roomPayPassword,
+        isForeign: TT.isForeign,
+        roomInfo: ttRoomData,
+        profileInfo: ttProfileInfo,
+        profileP2POpt: window.TT_PROFILE_P2P_OPT
+    };
+    search.share_by && search.share_fm && (metaData.platform = {
+        weixin: 2,
+        pengyouquan: 1,
+        weibo: 3,
+        qq: 4,
+        kongjian: 5,
+        tieba: 6,
+        lianjie: 7
+    }[search.share_fm] || 7,
+    metaData.platform = "share-" + metaData.platform),
+    ttRoomData.isReplay && $.extend(d, {
+        replay: 1,
+        isEu: !1,
+        doJoin: 0
+    }),
+    $("#liveRoomObj").html('<div id="videoContainer" style="position: relative;"></div>');
+    var ttLiveTiming = window.TT_LIVE_TIMING || {};
+    ttLiveTiming.playerInitBefore = (new Date).getTime();
+    var vPlayer = new VPlayer($.extend({
+        idDom: "#videoContainer",
+        register: function(n) {
+            element.emit("reg", n)
+        }
+    }, metaData));
+    ttLiveTiming.playerInitAfter = (new Date).getTime();
+    element.emit("initComplete", vPlayer);
 }
 
-h(eight.a)
+meta(eight.a)
