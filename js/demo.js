@@ -1489,7 +1489,7 @@ var BvAJex = {
 };
 
 var BvAJ = function(t) {
-    var r = wIU9ex.exports;
+    var z = wIU9ex.exports;
     var n = {
         EWebSocketCommandType: {
             EWSCmd_NULL: 0,
@@ -1582,7 +1582,7 @@ var BvAJ = function(t) {
         },
         WebSocketCommand: function() {
             this.iCmdType = 0,
-            this.vData = new r.BinBuffer,
+            this.vData = new z.BinBuffer,
             this.lRequestId = 0,
             this.traceId = "",
             this.iEncryptType = 0,
@@ -9898,6 +9898,7 @@ var BvAJ = function(t) {
         this.lItemCount = t.readInt64(6, !1, this.lItemCount)
     }
     ,
+    /**豆子 */
     n.BuyBetReq = function() {
         this.tId = new n.UserId,
         this.lTopSid = 0,
@@ -10515,6 +10516,7 @@ var BvAJ = function(t) {
         this.iCode = t.readInt32(0, !1, this.iCode),
         this.lAssistantUid = t.readInt64(1, !1, this.lAssistantUid)
     }
+    /**豆子 */
     ,
     n.ShowScreenSkinNotify = function() {
         this.data = new n.ScreenSkinData
@@ -35312,10 +35314,12 @@ var U5TG = function(t) {
                 getTreasureBoxInfo: e[n("0x93")],
                 getTreasureBoxUIList: e.GetTreasureBoxUIListRsp,
                 getTreasureBoxPanel: e[n("0x33")],
+                /** */
                 bet: e[n("0x94")],
                 buyBet: e[n("0x95")],
                 getGameInfo: e[n("0x96")],
                 getRemainBeanNum: e.GetRemainBeanNumRsp,
+                /** */
                 getAssistant: e.GetAssistantRsp,
                 queryCardPackage: e[n("0x97")],
                 queryTreasure: e.QueryTreasureInfoRsp,
@@ -36073,12 +36077,298 @@ var YJXF = function(t, e) {
 
 YJXF.call(YJXFex.exports, YJXFex)
 
+
+var vGTAex = {
+  i: "vGTA",
+  l: !1,
+  exports: {}
+};
+var vGTA = function(t, e, i) {
+  var r, n, s;
+  function o(t) {
+      return (o = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(t) {
+          return typeof t
+      }
+      : function(t) {
+          return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : typeof t
+      }
+      )(t)
+  }
+  s = function(t) {
+      "use strict";
+      var e = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
+      function i(t, e) {
+          var i = t[0]
+            , r = t[1]
+            , n = t[2]
+            , s = t[3];
+          r = ((r += ((n = ((n += ((s = ((s += ((i = ((i += (r & n | ~r & s) + e[0] - 680876936 | 0) << 7 | i >>> 25) + r | 0) & r | ~i & n) + e[1] - 389564586 | 0) << 12 | s >>> 20) + i | 0) & i | ~s & r) + e[2] + 606105819 | 0) << 17 | n >>> 15) + s | 0) & s | ~n & i) + e[3] - 1044525330 | 0) << 22 | r >>> 10) + n | 0,
+          r = ((r += ((n = ((n += ((s = ((s += ((i = ((i += (r & n | ~r & s) + e[4] - 176418897 | 0) << 7 | i >>> 25) + r | 0) & r | ~i & n) + e[5] + 1200080426 | 0) << 12 | s >>> 20) + i | 0) & i | ~s & r) + e[6] - 1473231341 | 0) << 17 | n >>> 15) + s | 0) & s | ~n & i) + e[7] - 45705983 | 0) << 22 | r >>> 10) + n | 0,
+          r = ((r += ((n = ((n += ((s = ((s += ((i = ((i += (r & n | ~r & s) + e[8] + 1770035416 | 0) << 7 | i >>> 25) + r | 0) & r | ~i & n) + e[9] - 1958414417 | 0) << 12 | s >>> 20) + i | 0) & i | ~s & r) + e[10] - 42063 | 0) << 17 | n >>> 15) + s | 0) & s | ~n & i) + e[11] - 1990404162 | 0) << 22 | r >>> 10) + n | 0,
+          r = ((r += ((n = ((n += ((s = ((s += ((i = ((i += (r & n | ~r & s) + e[12] + 1804603682 | 0) << 7 | i >>> 25) + r | 0) & r | ~i & n) + e[13] - 40341101 | 0) << 12 | s >>> 20) + i | 0) & i | ~s & r) + e[14] - 1502002290 | 0) << 17 | n >>> 15) + s | 0) & s | ~n & i) + e[15] + 1236535329 | 0) << 22 | r >>> 10) + n | 0,
+          r = ((r += ((n = ((n += ((s = ((s += ((i = ((i += (r & s | n & ~s) + e[1] - 165796510 | 0) << 5 | i >>> 27) + r | 0) & n | r & ~n) + e[6] - 1069501632 | 0) << 9 | s >>> 23) + i | 0) & r | i & ~r) + e[11] + 643717713 | 0) << 14 | n >>> 18) + s | 0) & i | s & ~i) + e[0] - 373897302 | 0) << 20 | r >>> 12) + n | 0,
+          r = ((r += ((n = ((n += ((s = ((s += ((i = ((i += (r & s | n & ~s) + e[5] - 701558691 | 0) << 5 | i >>> 27) + r | 0) & n | r & ~n) + e[10] + 38016083 | 0) << 9 | s >>> 23) + i | 0) & r | i & ~r) + e[15] - 660478335 | 0) << 14 | n >>> 18) + s | 0) & i | s & ~i) + e[4] - 405537848 | 0) << 20 | r >>> 12) + n | 0,
+          r = ((r += ((n = ((n += ((s = ((s += ((i = ((i += (r & s | n & ~s) + e[9] + 568446438 | 0) << 5 | i >>> 27) + r | 0) & n | r & ~n) + e[14] - 1019803690 | 0) << 9 | s >>> 23) + i | 0) & r | i & ~r) + e[3] - 187363961 | 0) << 14 | n >>> 18) + s | 0) & i | s & ~i) + e[8] + 1163531501 | 0) << 20 | r >>> 12) + n | 0,
+          r = ((r += ((n = ((n += ((s = ((s += ((i = ((i += (r & s | n & ~s) + e[13] - 1444681467 | 0) << 5 | i >>> 27) + r | 0) & n | r & ~n) + e[2] - 51403784 | 0) << 9 | s >>> 23) + i | 0) & r | i & ~r) + e[7] + 1735328473 | 0) << 14 | n >>> 18) + s | 0) & i | s & ~i) + e[12] - 1926607734 | 0) << 20 | r >>> 12) + n | 0,
+          r = ((r += ((n = ((n += ((s = ((s += ((i = ((i += (r ^ n ^ s) + e[5] - 378558 | 0) << 4 | i >>> 28) + r | 0) ^ r ^ n) + e[8] - 2022574463 | 0) << 11 | s >>> 21) + i | 0) ^ i ^ r) + e[11] + 1839030562 | 0) << 16 | n >>> 16) + s | 0) ^ s ^ i) + e[14] - 35309556 | 0) << 23 | r >>> 9) + n | 0,
+          r = ((r += ((n = ((n += ((s = ((s += ((i = ((i += (r ^ n ^ s) + e[1] - 1530992060 | 0) << 4 | i >>> 28) + r | 0) ^ r ^ n) + e[4] + 1272893353 | 0) << 11 | s >>> 21) + i | 0) ^ i ^ r) + e[7] - 155497632 | 0) << 16 | n >>> 16) + s | 0) ^ s ^ i) + e[10] - 1094730640 | 0) << 23 | r >>> 9) + n | 0,
+          r = ((r += ((n = ((n += ((s = ((s += ((i = ((i += (r ^ n ^ s) + e[13] + 681279174 | 0) << 4 | i >>> 28) + r | 0) ^ r ^ n) + e[0] - 358537222 | 0) << 11 | s >>> 21) + i | 0) ^ i ^ r) + e[3] - 722521979 | 0) << 16 | n >>> 16) + s | 0) ^ s ^ i) + e[6] + 76029189 | 0) << 23 | r >>> 9) + n | 0,
+          r = ((r += ((n = ((n += ((s = ((s += ((i = ((i += (r ^ n ^ s) + e[9] - 640364487 | 0) << 4 | i >>> 28) + r | 0) ^ r ^ n) + e[12] - 421815835 | 0) << 11 | s >>> 21) + i | 0) ^ i ^ r) + e[15] + 530742520 | 0) << 16 | n >>> 16) + s | 0) ^ s ^ i) + e[2] - 995338651 | 0) << 23 | r >>> 9) + n | 0,
+          r = ((r += ((s = ((s += (r ^ ((i = ((i += (n ^ (r | ~s)) + e[0] - 198630844 | 0) << 6 | i >>> 26) + r | 0) | ~n)) + e[7] + 1126891415 | 0) << 10 | s >>> 22) + i | 0) ^ ((n = ((n += (i ^ (s | ~r)) + e[14] - 1416354905 | 0) << 15 | n >>> 17) + s | 0) | ~i)) + e[5] - 57434055 | 0) << 21 | r >>> 11) + n | 0,
+          r = ((r += ((s = ((s += (r ^ ((i = ((i += (n ^ (r | ~s)) + e[12] + 1700485571 | 0) << 6 | i >>> 26) + r | 0) | ~n)) + e[3] - 1894986606 | 0) << 10 | s >>> 22) + i | 0) ^ ((n = ((n += (i ^ (s | ~r)) + e[10] - 1051523 | 0) << 15 | n >>> 17) + s | 0) | ~i)) + e[1] - 2054922799 | 0) << 21 | r >>> 11) + n | 0,
+          r = ((r += ((s = ((s += (r ^ ((i = ((i += (n ^ (r | ~s)) + e[8] + 1873313359 | 0) << 6 | i >>> 26) + r | 0) | ~n)) + e[15] - 30611744 | 0) << 10 | s >>> 22) + i | 0) ^ ((n = ((n += (i ^ (s | ~r)) + e[6] - 1560198380 | 0) << 15 | n >>> 17) + s | 0) | ~i)) + e[13] + 1309151649 | 0) << 21 | r >>> 11) + n | 0,
+          r = ((r += ((s = ((s += (r ^ ((i = ((i += (n ^ (r | ~s)) + e[4] - 145523070 | 0) << 6 | i >>> 26) + r | 0) | ~n)) + e[11] - 1120210379 | 0) << 10 | s >>> 22) + i | 0) ^ ((n = ((n += (i ^ (s | ~r)) + e[2] + 718787259 | 0) << 15 | n >>> 17) + s | 0) | ~i)) + e[9] - 343485551 | 0) << 21 | r >>> 11) + n | 0,
+          t[0] = i + t[0] | 0,
+          t[1] = r + t[1] | 0,
+          t[2] = n + t[2] | 0,
+          t[3] = s + t[3] | 0
+      }
+      function r(t) {
+          var e, i = [];
+          for (e = 0; e < 64; e += 4)
+              i[e >> 2] = t.charCodeAt(e) + (t.charCodeAt(e + 1) << 8) + (t.charCodeAt(e + 2) << 16) + (t.charCodeAt(e + 3) << 24);
+          return i
+      }
+      function n(t) {
+          var e, i = [];
+          for (e = 0; e < 64; e += 4)
+              i[e >> 2] = t[e] + (t[e + 1] << 8) + (t[e + 2] << 16) + (t[e + 3] << 24);
+          return i
+      }
+      function s(t) {
+          var e, n, s, o, a, c, d = t.length, u = [1732584193, -271733879, -1732584194, 271733878];
+          for (e = 64; e <= d; e += 64)
+              i(u, r(t.substring(e - 64, e)));
+          for (n = (t = t.substring(e - 64)).length,
+          s = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          e = 0; e < n; e += 1)
+              s[e >> 2] |= t.charCodeAt(e) << (e % 4 << 3);
+          if (s[e >> 2] |= 128 << (e % 4 << 3),
+          e > 55)
+              for (i(u, s),
+              e = 0; e < 16; e += 1)
+                  s[e] = 0;
+          return o = (o = 8 * d).toString(16).match(/(.*?)(.{0,8})$/),
+          a = parseInt(o[2], 16),
+          c = parseInt(o[1], 16) || 0,
+          s[14] = a,
+          s[15] = c,
+          i(u, s),
+          u
+      }
+      function o(t) {
+          var i, r = "";
+          for (i = 0; i < 4; i += 1)
+              r += e[t >> 8 * i + 4 & 15] + e[t >> 8 * i & 15];
+          return r
+      }
+      function a(t) {
+          var e;
+          for (e = 0; e < t.length; e += 1)
+              t[e] = o(t[e]);
+          return t.join("")
+      }
+      function c(t) {
+          return /[\u0080-\uFFFF]/.test(t) && (t = unescape(encodeURIComponent(t))),
+          t
+      }
+      function d(t) {
+          var e, i = [], r = t.length;
+          for (e = 0; e < r - 1; e += 2)
+              i.push(parseInt(t.substr(e, 2), 16));
+          return String.fromCharCode.apply(String, i)
+      }
+      function u() {
+          this.reset()
+      }
+      return a(s("hello")),
+      "undefined" == typeof ArrayBuffer || ArrayBuffer.prototype.slice || function() {
+          function e(t, e) {
+              return (t = 0 | t || 0) < 0 ? Math.max(t + e, 0) : Math.min(t, e)
+          }
+          ArrayBuffer.prototype.slice = function(i, r) {
+              var n, s, o, a, c = this.byteLength, d = e(i, c), u = c;
+              return r !== t && (u = e(r, c)),
+              d > u ? new ArrayBuffer(0) : (n = u - d,
+              s = new ArrayBuffer(n),
+              o = new Uint8Array(s),
+              a = new Uint8Array(this,d,n),
+              o.set(a),
+              s)
+          }
+      }(),
+      u.prototype.append = function(t) {
+          return this.appendBinary(c(t)),
+          this
+      }
+      ,
+      u.prototype.appendBinary = function(t) {
+          this._buff += t,
+          this._length += t.length;
+          var e, n = this._buff.length;
+          for (e = 64; e <= n; e += 64)
+              i(this._hash, r(this._buff.substring(e - 64, e)));
+          return this._buff = this._buff.substring(e - 64),
+          this
+      }
+      ,
+      u.prototype.end = function(t) {
+          var e, i, r = this._buff, n = r.length, s = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+          for (e = 0; e < n; e += 1)
+              s[e >> 2] |= r.charCodeAt(e) << (e % 4 << 3);
+          return this._finish(s, n),
+          i = a(this._hash),
+          t && (i = d(i)),
+          this.reset(),
+          i
+      }
+      ,
+      u.prototype.reset = function() {
+          return this._buff = "",
+          this._length = 0,
+          this._hash = [1732584193, -271733879, -1732584194, 271733878],
+          this
+      }
+      ,
+      u.prototype.getState = function() {
+          return {
+              buff: this._buff,
+              length: this._length,
+              hash: this._hash.slice()
+          }
+      }
+      ,
+      u.prototype.setState = function(t) {
+          return this._buff = t.buff,
+          this._length = t.length,
+          this._hash = t.hash,
+          this
+      }
+      ,
+      u.prototype.destroy = function() {
+          delete this._hash,
+          delete this._buff,
+          delete this._length
+      }
+      ,
+      u.prototype._finish = function(t, e) {
+          var r, n, s, o = e;
+          if (t[o >> 2] |= 128 << (o % 4 << 3),
+          o > 55)
+              for (i(this._hash, t),
+              o = 0; o < 16; o += 1)
+                  t[o] = 0;
+          r = (r = 8 * this._length).toString(16).match(/(.*?)(.{0,8})$/),
+          n = parseInt(r[2], 16),
+          s = parseInt(r[1], 16) || 0,
+          t[14] = n,
+          t[15] = s,
+          i(this._hash, t)
+      }
+      ,
+      u.hash = function(t, e) {
+          return u.hashBinary(c(t), e)
+      }
+      ,
+      u.hashBinary = function(t, e) {
+          var i = a(s(t));
+          return e ? d(i) : i
+      }
+      ,
+      u.ArrayBuffer = function() {
+          this.reset()
+      }
+      ,
+      u.ArrayBuffer.prototype.append = function(t) {
+          var e, r, s, o, a, c = (r = this._buff.buffer,
+          s = t,
+          o = !0,
+          (a = new Uint8Array(r.byteLength + s.byteLength)).set(new Uint8Array(r)),
+          a.set(new Uint8Array(s), r.byteLength),
+          o ? a : a.buffer), d = c.length;
+          for (this._length += t.byteLength,
+          e = 64; e <= d; e += 64)
+              i(this._hash, n(c.subarray(e - 64, e)));
+          return this._buff = e - 64 < d ? new Uint8Array(c.buffer.slice(e - 64)) : new Uint8Array(0),
+          this
+      }
+      ,
+      u.ArrayBuffer.prototype.end = function(t) {
+          var e, i, r = this._buff, n = r.length, s = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+          for (e = 0; e < n; e += 1)
+              s[e >> 2] |= r[e] << (e % 4 << 3);
+          return this._finish(s, n),
+          i = a(this._hash),
+          t && (i = d(i)),
+          this.reset(),
+          i
+      }
+      ,
+      u.ArrayBuffer.prototype.reset = function() {
+          return this._buff = new Uint8Array(0),
+          this._length = 0,
+          this._hash = [1732584193, -271733879, -1732584194, 271733878],
+          this
+      }
+      ,
+      u.ArrayBuffer.prototype.getState = function() {
+          var t, e = u.prototype.getState.call(this);
+          return e.buff = (t = e.buff,
+          String.fromCharCode.apply(null, new Uint8Array(t))),
+          e
+      }
+      ,
+      u.ArrayBuffer.prototype.setState = function(t) {
+          return t.buff = function(t, e) {
+              var i, r = t.length, n = new ArrayBuffer(r), s = new Uint8Array(n);
+              for (i = 0; i < r; i += 1)
+                  s[i] = t.charCodeAt(i);
+              return e ? s : n
+          }(t.buff, !0),
+          u.prototype.setState.call(this, t)
+      }
+      ,
+      u.ArrayBuffer.prototype.destroy = u.prototype.destroy,
+      u.ArrayBuffer.prototype._finish = u.prototype._finish,
+      u.ArrayBuffer.hash = function(t, e) {
+          var r = a(function(t) {
+              var e, r, s, o, a, c, d = t.length, u = [1732584193, -271733879, -1732584194, 271733878];
+              for (e = 64; e <= d; e += 64)
+                  i(u, n(t.subarray(e - 64, e)));
+              for (r = (t = e - 64 < d ? t.subarray(e - 64) : new Uint8Array(0)).length,
+              s = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+              e = 0; e < r; e += 1)
+                  s[e >> 2] |= t[e] << (e % 4 << 3);
+              if (s[e >> 2] |= 128 << (e % 4 << 3),
+              e > 55)
+                  for (i(u, s),
+                  e = 0; e < 16; e += 1)
+                      s[e] = 0;
+              return o = (o = 8 * d).toString(16).match(/(.*?)(.{0,8})$/),
+              a = parseInt(o[2], 16),
+              c = parseInt(o[1], 16) || 0,
+              s[14] = a,
+              s[15] = c,
+              i(u, s),
+              u
+          }(new Uint8Array(t)));
+          return e ? d(r) : r
+      }
+      ,
+      u
+  }
+  ,
+  "object" === o(e) ? t.exports = s() : void 0 === (n = "function" == typeof (r = s) ? r.call(e, i, e, t) : r) || (t.exports = n)
+}
+vGTA.call(vGTAex.exports, vGTAex, vGTAex.exports)
+
 /**h = t.taf
    p = h.HUYA
    l = h.Taf
    f = h.TafMx */
 var taf = BvAJex.exports;
 var utils = YJXFex.exports;
+var T = vGTAex.exports;
 
 var HUYA = taf.HUYA;
 var Taf = taf.Taf;
@@ -36093,6 +36383,15 @@ t.sExp = "13181.19980";
 var i = new Taf.JceOutputStream;
 t.writeTo(i);
 
+var tid = new HUYA.UserId;
+tid.iTokenType = 0;
+tid.lUid = 2184376762;
+tid.sCookie = "__yamid_tt1=0.25038689514439016; __yamid_new=C997FE2EC8D00001C6416D091B141D72; udb_guiddata=ea0a8e9c1e3c4c0da1d6cf620402493c; udb_deviceid=w_513525440130330624; game_did=CW8mN-EAKeAyCJ8SZJdlRWy6VWKfQgF3nVD; alphaValue=0.80; videoBitRate=0; udb_cred=ChAYRXBf5vwrZEkNpAbcI-p2BoK2grJ-Ndl9LdvH4891XM6NW-xSiZUcS56mxTrwVLg6bDSsuWCTfHcrMa1bNOovuKv3WhE1KBRnFR-pCaNAg85h2Qx9Qkd38NDiI7QDx5Y; udb_origin=100; udb_other=%7B%22lt%22%3A%221644819554697%22%2C%22isRem%22%3A%221%22%7D; udb_passport=2184616157yy; udb_status=1; udb_uid=2184376762; udb_version=1.0; username=2184616157yy; yyuid=2184376762; udb_accdata=08613429892389; guid=0adbbb0e7af40962ed015439553900ae; guid=0adbbb0e7af40962ed015439553900ae; SoundValue=0.13; udb_biztoken=AQBOQ517061lcIray3Av6VJLYTNh9R_t1sfF8AVVUlpBFAstz2bEl1VzVQviUWy31bW3XYJBPWigOMPe_KbNA4EKvvuFM88Yf556mGMkezvqcrzP-ly07UgFlOuCOmbxd2zSVXLs-jzWZxRILjmlGrkXoK-WaphRsgPe_NChBZA_CIKyLb-aw5g2xuKsSc8HrNtDMhtwaOWln-nHEvgJUMs2Mn3PpSh_69EZdlDXQJG0XNlekuO1Q70VrvGj4Yh13vQ8WRN0IzRcTKPv4mf01ifD9NFtCSkn7UsXRbKHWO8NgwHydTtresWqd0AXxwOZprx5kefa7lAcfv2iFIsVDo2f; h_unt=1645397032; Hm_lvt_51700b6c722f5bb4cf39906a596ea41f=1645284428,1645333662,1645377322,1645397033; __yasmid=0.25038689514439016; _yasids=__rootsid%3DC9B8201213300001D411EE4055B05530; __yaoldyyuid=2184376762; udb_passdata=3; isInLiveRoom=true; PHPSESSID=7rl1r865qttvh2oegcvb68ell7; rep_cnt=6; huya_ua=webh5&0.1.0&websocket; Hm_lpvt_51700b6c722f5bb4cf39906a596ea41f=1645399190; huya_flash_rep_cnt=311; huya_web_rep_cnt=872";
+tid.sDeviceInfo = "Chrome";
+tid.sGuid = "0adbbb0e7af40962ed015439553900ae";
+tid.sToken = "";
+tid.sHuYaUA = "webh5&2202171447&websocket";
+
 var o = window.btoa(utils.ab2str(i.getBuffer(), !1));
 
 var _ = "?baseinfo=".concat(encodeURIComponent(o));
@@ -36100,6 +36399,24 @@ var _ = "?baseinfo=".concat(encodeURIComponent(o));
 var ws = new WebSocket("wss://wsapi.huya.com" + _);
 
 var W = {}, $ = null, z = {};
+
+getTraceId = function() {
+  return "xxxxxxxxxxxxxxxx".replace(/[xy]/g, (function(t) {
+      var e = 16 * Math.random() | 0;
+      return ("x" == t ? e : 3 & e | 8).toString(16)
+  }
+  ))
+}
+
+u.ArrayBuffer = function() {
+  this.reset()
+}
+u.ArrayBuffer.prototype.reset = function() {
+  return this._buff = new Uint8Array(0),
+  this._length = 0,
+  this._hash = [1732584193, -271733879, -1732584194, 271733878],
+  this
+}
 
 var m = {
   DEFAULT_IP: "ws.api.huya.com",
@@ -36116,17 +36433,14 @@ var m = {
     P()
   },
   sendWup: function(t, i, r, n, s, o, a) {
-    n && (e.userId.sToken = n),
-    r && r.tId && !o && (r.tId = e.userId),
-    !g || "videogateway" == t.toLowerCase() && !S || f.NoLog[i] || c.log("%c>>>>>>> %creqWup: %c" + i, H("#009100"), H("black"), H("#009100"), t, r);
-    var d = new l.Wup;
+    var d = new Taf.Wup;
     d.setServant(t),
     d.setFunc(i),
     d.writeStruct("tReq", r),
     null == s && (s = -1),
     d.setRequestId(s);
-    var u = new p.WebSocketCommand;
-    u.iCmdType = p.EWebSocketCommandType.EWSCmd_WupReq;
+    var u = new HUYA.WebSocketCommand;
+    u.iCmdType = HUYA.EWebSocketCommandType.EWSCmd_WupReq;
     var h = d.encode();
     u.vData = h;
     try {
@@ -36138,37 +36452,16 @@ var m = {
     } catch (t) {
         c.log("sparkMd5End", t)
     }
-    a || (a = e.getTraceId());
-    var y = "".concat(a, ":").concat(a, ":").concat(0, ":").concat(e.enableTrace);
+    a || (a = getTraceId());
+    var y = "".concat(a, ":").concat(a, ":").concat(0, ":").concat(0);
     u.traceId = y;
-    var v = new l.JceOutputStream;
+    var v = new Taf.JceOutputStream;
     u.writeTo(v),
     C(v.getBuffer())
   },
   sendWup2: function(t, i, r, s, o, a, c) {
     var d = +new Date
-      , u = e.getTraceId();
-    if ("function" == typeof s) {
-        m.addListener(a > 0 ? i + a : i, (function e(r) {
-            n.fireEvent(n.TAF_SUCCESS_REPORT, {
-                type: 2,
-                code: r.bcode,
-                funcName: i,
-                moduleName: t,
-                startTime: d
-            }),
-            s(r),
-            (o || null == o) && m.removeListener(a > 0 ? i + a : i, e)
-        }
-        )),
-        n.fireEvent(n.TAF_SUCCESS_REPORT, {
-            type: 1,
-            funcName: i,
-            moduleName: t,
-            startTime: d,
-            traceid: u
-        })
-    }
+      , u = getTraceId();
     m.sendWup(t, i, r, null, a, c, u)
   },
   sendField: function(t, e, i, r) {
@@ -36393,6 +36686,8 @@ function V(t) {
   }(t) : t instanceof p.ExpressionEmoticonNotice ? O(t.tDecoration) : t instanceof p.SendExpressionEmoticonRsp && O(t.tResult.tDecoration)
 }
 
+
+
 ws.onopen = function () {
     m.connected = !0,
     function() {
@@ -36413,22 +36708,46 @@ ws.onopen = function () {
         C(i.getBuffer())
     }(),
     function() {
-        var n = new HUYA.GetLivingInfoReq;
-        n.tId = i.userId,
-        n.lTopSid = i.topsid,
-        n.lSubSid = i.subsid,
-        i.obCurPid ? n.lPresenterUid = i.obCurPid : n.lPresenterUid = i.presenterUid,
-        n.sTraceSource = d.ref,
-        n.sPassword = d.roomPayPassword || "",
-
+      var n = new HUYA.GetLivingInfoReq;
+      n.tId = tid,
+      n.lTopSid = 1346609715,
+      n.lSubSid = 1346609715,
+      n.lPresenterUid = 1346609715,
+      n.sTraceSource = null,
+      n.sPassword = "",
+      m.sendWup2("liveui", "getLivingInfo", n, E)
     }(),
     function() {
+      var r = new HUYA.LiveLaunchReq;
+      r.tId = tid,
+      r.tLiveUB.eSource = HUYA.ELiveSource.WEB_HUYA,
+      r.bSupportDomain = 1,
+      m.sendWup2("liveui", "doLaunch", r, v)
+    }()
+}
 
-    },
-    m.dispatch("WEBSOCKET_CONNECTED"),
-    e.reConnectTimes = 0,
-    clearTimeout(M),
-    b.start()
+function v(t) {
+  U()
+}
+
+function E(r) {}
+
+function U() {
+  if (p.addLog("send login"),
+  !i.loginRegister) {
+      if (i.loginRegisterTime = Date.now(),
+      "" != i.danmuMaskbroadcastGroup && i.hasDanmuMask)
+          -1 != i.danmuGroudId.indexOf(i.danmuMaskbroadcastGroup) && (i.danmuGroudId = [i.danmuMaskbroadcastGroup]);
+      else
+          i.danmuGroudId = [];
+      var t = new m.WSRegisterGroupReq;
+      for (var r in t.vGroupId.value.push("live:" + i.presenterUid),
+      t.vGroupId.value.push("chat:" + i.presenterUid),
+      d.roomPayPassword && "" != d.roomPayPassword && t.vGroupId.value.push("schat:" + i.presenterUid + "-" + d.roomPayPassword),
+      Y)
+          t.vGroupId.value.push(Y[r]);
+      e.sendRegisterGroup(t)
+  }
 }
 
 function C(t) {
@@ -36439,6 +36758,18 @@ ws.onmessage = function (t) {
     var e = new FileReader;
     e.onload = B,
     e.readAsArrayBuffer(t.data)
+}
+
+function D(t, i, r) {
+  t && -1 != e.extTafUri.indexOf(t) ? e.vplayerUI.trigger("extTafData", {
+      uri: t,
+      funcName: "",
+      data: r
+  }) : i && -1 != e.extTafFunName.indexOf(i) && e.vplayerUI.trigger("extTafData", {
+      uri: 0,
+      funcName: i,
+      data: r
+  })
 }
 
 function B() {
